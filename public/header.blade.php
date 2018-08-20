@@ -136,7 +136,7 @@
                                                         class="img-responsive" alt=""></div>
                                             <div class="list_desc"><h4><a href="#">{{ $product['item']['title'] }}</a>
                                                 </h4>
-                                                <h5>Số lượng: <span id="soluongsp">{{ $product['qty'] }}</span></h5>
+                                                <h5 id="soluongsp">Số lượng: {{ $product['qty'] }}</h5>
                                                 <h5>Đơn giá: <span id="dongia{{ $product['item']['id'] }}"
                                                             value="{{ $product['item']['price'] }}">{{ number_format($product['item']['price']) }}</span>
                                                 </h5>

@@ -29,7 +29,10 @@
                     <div class="available">
                         <span><?php echo "$product->description"; ?></span>
                     </div>
-                    <a href="{{ route('addtocart',$product->id) }}" class="cart-an ">Thêm Vào Giỏ Hàng</a>
+
+                    <input name="sl" type="number" id="sl" value="">
+                    <a value="{{ $product['id'] }}" class="addcart cart-an">Thêm Vào Giỏ Hàng</a>
+
                     <div class="share">
                         <h4>Chia sẻ:</h4>
                         <ul class="share_nav">
@@ -61,6 +64,76 @@
                 </li>
                 @endforeach
             </ul>
+
+            <script src="source/js/jquery.min.js"></script>
+            <script>
+				$(document).ready(function ($) {
+					$('.addcart').click(function () {
+						var id = $(this).attr('value');
+						var route = "{{ route('addtocart',':id_pro') }}";
+						route = route.replace(':id_pro', id);
+						var sl = $('#sl').attr('value');
+						var dongia = $('#dongia' + id).attr('value');
+						var tongdongia = $('.rate').attr('value');
+
+						$.ajax({
+							url: route,
+							type: 'get',
+							data: {id: id},
+							success: function () {
+								var tongsl = $('#tongsl').html();
+								if ( isNaN (tongsl) ){
+									tongsl = 0;
+									$("#tongsl").html(parseInt(tongsl) + parseInt(sl));
+									$('.rate').html(parseInt(tongdongia) + (parseInt(sl)*parseInt(dongia)) + ' VNĐ ');
+									$('.rate').attr('value', parseInt(tongdongia) + (parseInt(sl)*parseInt(dongia)));
+                                }
+								else{
+									$("#tongsl").html(parseInt(tongsl) + parseInt(sl));
+									$('.rate').html(parseInt(tongdongia) + (parseInt(sl)*parseInt(dongia)) + ' VNĐ ');
+									$('.rate').attr('value', parseInt(tongdongia) + (parseInt(sl)*parseInt(dongia)));
+								}
+								var soluongsp = $('#soluongsp').html();
+								$('#soluongsp').html(parseInt(soluongsp) + parseInt(sl));
+							},
+							error: function (data) {
+								console.log(data);
+							}
+						})
+					})
+				});
+
+				$(document).ready(function ($) {
+					$('.delheader').click(function () {
+						var id = $(this).attr('value');
+						var route = "{{ route('del-item-cart',':id_pro') }}";
+						route = route.replace(':id_pro', id);
+						var soluong = $(this).attr("soluong");
+						var dongia = $('#dongia' + id).attr('value')
+						var tongdongia = $('.rate').attr('value');
+
+						$.ajax({
+							url: route,
+							type: 'get',
+							data: {id: id},
+							success: function () {
+								var tongsl = $('#tongsl').html();
+								$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
+								$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
+								$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
+								$('#hidecart' + id).hide();
+							},
+							error: function (data) {
+								console.log(data)
+							}
+						})
+					})
+				});
+
+
+            </script>
+
+
             <script type="text/javascript">
 				$(window).load(function () {
 					$("#flexiselDemo1").flexisel({

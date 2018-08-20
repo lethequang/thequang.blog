@@ -15,12 +15,13 @@ class CartController extends Controller
 {
 	public function getAddToCart(Request $request, $id)
 	{
-		$product = Product::find($id);
-		$oldCart = Session('cart') ? Session::get('cart') : NULL;
-		$cart = new Cart($oldCart);
-		$cart->add($product, $id);
-		$request->Session()->put('cart', $cart);
-		return redirect()->back();
+			$product = Product::find($id);
+			$oldCart = Session('cart') ? Session::get('cart') : NULL;
+			$cart = new Cart($oldCart);
+			$cart->add($product, $id);
+			$request->Session()->put('cart', $cart);
+			// return redirect()->back();
+
 	}
 
 
