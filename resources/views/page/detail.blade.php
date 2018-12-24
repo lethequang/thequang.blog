@@ -29,7 +29,7 @@
                     <div class="available">
                         <span><?php echo "$product->description"; ?></span>
                     </div>
-                    <a href="{{ route('addtocart',$product->id) }}" class="cart-an ">Thêm Vào Giỏ Hàng</a>
+                    <a href="{{ route('addtocart',$product->id) }}" class="cart-an">Thêm Vào Giỏ Hàng</a>
                     <div class="share">
                         <h4>Chia sẻ:</h4>
                         <ul class="share_nav">

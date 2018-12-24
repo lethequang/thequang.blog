@@ -98,7 +98,7 @@
             <ul class="megamenu skyblue">
                 <li class="active grid"><a href="{{ route('home') }}">TRANG CHỦ</a></li>
                 <li class="grid"><a href="#">DANH MỤC</a>
-                    <div class="megapanel">
+                    {{--<div class="megapanel">
                         <div class="row">
                             <div class="col1">
                                 <div class="h_nav">
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
                 </li>
                 <li><a class="pink" href="{{ route('cart') }}">GIỎ HÀNG</a></li>
                 <li><a class="pink" href="{{ route('news') }}">TIN TỨC</a></li>
@@ -132,9 +132,16 @@
                                         <div class="message">
                                             <a value="{{ $product['item']['id'] }}" soluong="{{ $product['qty'] }}"
                                                     class="delheader alert-close"></a>
-                                            <div class="list_img"><img src="images/{{ $product['item']['image'] }}"
-                                                        class="img-responsive" alt=""></div>
-                                            <div class="list_desc"><h4><a href="#">{{ $product['item']['title'] }}</a>
+                                            <div class="list_img">
+                                                <a href="book/{{ $product['item']['slug'] }}">
+                                                    <img title="{{ $product['item']['title'] }}" src="images/{{ $product['item']['image'] }}" class="img-responsive" alt="{{ $product['item']['title'] }}">
+                                                </a>
+                                            </div>
+                                            <div class="list_desc">
+                                                <h4>
+                                                    <a title="{{ $product['item']['title'] }}" href="book/{{ $product['item']['slug'] }}">
+                                                        {{ substr_replace($product['item']['title'],'...',25) }}
+                                                    </a>
                                                 </h4>
                                                 <h5>Số lượng: {{ $product['qty'] }}</h5>
                                                 <h5>Đơn giá: <span id="dongia{{ $product['item']['id'] }}"
@@ -157,30 +164,59 @@
         <div class="clearfix"></div>
     </div>
     <script>
-		$(document).ready(function ($) {
-			$('.delheader').click(function () {
-				var id = $(this).attr('value');
-				var route = "{{ route('del-item-cart',':id_pro') }}";
-				route = route.replace(':id_pro', id);
-				var soluong = $(this).attr("soluong");
-				var dongia = $('#dongia' + id).attr('value')
-				var tongdongia = $('.rate').attr('value');
+        $(document).ready(function ($) {
+            $('.delheader').click(function () {
+                var id = $(this).attr('value');
+                var route = "{{ route('del-item-cart',':id_pro') }}";
+                route = route.replace(':id_pro', id);
+                var soluong = $(this).attr("soluong");
+                var dongia = $('#dongia' + id).attr('value')
+                var tongdongia = $('.rate').attr('value');
 
-				$.ajax({
-					url: route,
-					type: 'get',
-					data: {id: id},
-					success: function () {
-						var tongsl = $('#tongsl').html();
-						$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
-						$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
-						$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
-						$('#hidecart' + id).hide();
-					},
-					error: function (data) {
-						console.log(data)
-					}
-				})
-			})
-		});
+                $.ajax({
+                    url: route,
+                    type: 'get',
+                    data: {id: id},
+                    success: function () {
+                        alert('kk')
+                        // var tongsl = $('#tongsl').html();
+                        // $("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
+                        // $('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
+                        // $('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
+                        // $('#hidecart' + id).hide();
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            })
+        });
+		{{--$(document).ready(function ($) {--}}
+			{{--$('.delheader').click(function () {--}}
+				{{--var id = $(this).attr('value');--}}
+				{{--var route = "{{ route('del-item-cart',':id_pro') }}";--}}
+				{{--console.log(route)--}}
+				{{--route = route.replace(':id_pro', id);--}}
+				{{--var soluong = $(this).attr("soluong");--}}
+				{{--var dongia = $('#dongia' + id).attr('value')--}}
+				{{--var tongdongia = $('.rate').attr('value');--}}
+
+				{{--$.ajax({--}}
+					{{--url: route,--}}
+					{{--type: 'get',--}}
+					{{--data: {id: id},--}}
+					{{--success: function () {--}}
+						{{--var tongsl = $('#tongsl').html();--}}
+						{{--$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));--}}
+						{{--$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');--}}
+						{{--$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));--}}
+						{{--$('#hidecart' + id).hide();--}}
+					{{--},--}}
+					{{--error: function (data) {--}}
+						{{--console.log(data)--}}
+					{{--}--}}
+				{{--})--}}
+			{{--})--}}
+		{{--});--}}
+
     </script>

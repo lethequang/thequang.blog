@@ -183,19 +183,22 @@ class AdminController extends Controller
 
 	// bill
 	public function showListBill(){
-		$bills = Bill::paginate('5');
+        $bills = Bill::orderBy('id','DESC')
+            ->paginate('5');
 		return view('admin.bill.list',compact('bills'));
 	}
 	public function showDetailBill($id){
 		$bill = Bill::where('id',$id)->first();
-		$bill_details = BillDetail::where('id_bill',$id)->get();
-		$customer = Customer::where('id',$id)->first();
-		return view('admin.bill.detail',compact('bill_details','customer','bill'));
+        $id_cus = $bill->id_customer;
+        $bill_details = BillDetail::where('id_bill',$id)->get();
+        $customer = Customer::where('id',$id_cus)->first();
+        return view('admin.bill.detail',compact('bill_details','customer','bill'));
 	}
 	public function exportBill($id){
 		$bill = Bill::where('id',$id)->first();
-		$bill_details = BillDetail::where('id_bill',$id)->get();
-		$customer = Customer::where('id',$id)->first();
+        $id_cus = $bill->id_customer;
+        $bill_details = BillDetail::where('id_bill',$id)->get();
+        $customer = Customer::where('id',$id_cus)->first();
 //		$pdf = PDF::loadView('admin.bill.invoice',  compact('bill_details','customer'));
 //		return $pdf->download('invoice.pdf');
 

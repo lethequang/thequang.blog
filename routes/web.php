@@ -11,12 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 // List Page
-Route::get('index',[
+Route::get('/',[
 	'as'=>'home',
 	'uses'=>'PageController@getIndex'
 ]);
