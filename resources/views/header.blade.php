@@ -164,59 +164,59 @@
         <div class="clearfix"></div>
     </div>
     <script>
-        $(document).ready(function ($) {
-            $('.delheader').click(function () {
-                var id = $(this).attr('value');
-                var route = "{{ route('del-item-cart',':id_pro') }}";
-                route = route.replace(':id_pro', id);
-                var soluong = $(this).attr("soluong");
-                var dongia = $('#dongia' + id).attr('value')
-                var tongdongia = $('.rate').attr('value');
+        {{--$(document).ready(function ($) {--}}
+            {{--$('.delheader').click(function () {--}}
+                {{--var id = $(this).attr('value');--}}
+                {{--var route = "{{ route('del-item-cart',':id_pro') }}";--}}
+                {{--route = route.replace(':id_pro', id);--}}
+                {{--var soluong = $(this).attr("soluong");--}}
+                {{--var dongia = $('#dongia' + id).attr('value')--}}
+                {{--var tongdongia = $('.rate').attr('value');--}}
 
-                $.ajax({
-                    url: route,
-                    type: 'get',
-                    data: {id: id},
-                    success: function () {
-                        alert('kk')
-                        // var tongsl = $('#tongsl').html();
-                        // $("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
-                        // $('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
-                        // $('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
-                        // $('#hidecart' + id).hide();
-                    },
-                    error: function (data) {
-                        console.log(data)
-                    }
-                })
-            })
-        });
-		{{--$(document).ready(function ($) {--}}
-			{{--$('.delheader').click(function () {--}}
-				{{--var id = $(this).attr('value');--}}
-				{{--var route = "{{ route('del-item-cart',':id_pro') }}";--}}
-				{{--console.log(route)--}}
-				{{--route = route.replace(':id_pro', id);--}}
-				{{--var soluong = $(this).attr("soluong");--}}
-				{{--var dongia = $('#dongia' + id).attr('value')--}}
-				{{--var tongdongia = $('.rate').attr('value');--}}
+                {{--$.ajax({--}}
+                    {{--url: route,--}}
+                    {{--type: 'get',--}}
+                    {{--data: {id: id},--}}
+                    {{--success: function () {--}}
+                        {{--alert('kk')--}}
+                        {{--var tongsl = $('#tongsl').html();--}}
+                        {{--$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));--}}
+                        {{--$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');--}}
+                        {{--$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));--}}
+                        {{--$('#hidecart' + id).hide();--}}
+                    {{--},--}}
+                    {{--error: function (data) {--}}
+                        {{--console.log(data)--}}
+                    {{--}--}}
+                {{--})--}}
+            {{--})--}}
+        {{--});--}}
+		$(document).ready(function ($) {
+			$('.delheader').click(function () {
+				var id = $(this).attr('value');
+				var route = "{{ route('del-item-cart',':id_pro') }}";
+				console.log(route)
+				route = route.replace(':id_pro', id);
+				var soluong = $(this).attr("soluong");
+				var dongia = $('#dongia' + id).attr('value')
+				var tongdongia = $('.rate').attr('value');
 
-				{{--$.ajax({--}}
-					{{--url: route,--}}
-					{{--type: 'get',--}}
-					{{--data: {id: id},--}}
-					{{--success: function () {--}}
-						{{--var tongsl = $('#tongsl').html();--}}
-						{{--$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));--}}
-						{{--$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');--}}
-						{{--$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));--}}
-						{{--$('#hidecart' + id).hide();--}}
-					{{--},--}}
-					{{--error: function (data) {--}}
-						{{--console.log(data)--}}
-					{{--}--}}
-				{{--})--}}
-			{{--})--}}
-		{{--});--}}
+				$.ajax({
+					url: route,
+					type: 'get',
+					data: {id: id},
+					success: function () {
+						var tongsl = $('#tongsl').html();
+						$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
+						$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
+						$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
+						$('#hidecart' + id).hide();
+					},
+					error: function (data) {
+						console.log(data)
+					}
+				})
+			})
+		});
 
     </script>
