@@ -650,6 +650,12 @@ ul.social-in li  i:hover{
 	float:left;
 	width:50%;
 }
+.list_desc h4 {
+	width: 130px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 .list_desc h4 a{
 	color:#7db122 ;
 	font-size:13px ;

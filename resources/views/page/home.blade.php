@@ -51,9 +51,9 @@
                             <div class="product-content">
                                 <h3 class="title"><a href="book/{{ $book['slug'] }}">{{ $book['title'] }}</a></h3>
                                 <div class="price">
-                                    {{ number_format($book['price']) }} VNĐ
+                                    {{ number_format($book['price'], 0, '', '.') }} &#8363;
                                 </div>
-                                <a class="cart-an" href="{{ route('addtocart',$book['id']) }}">Chọn mua</a>
+                                <a class="cart-an" id="add-to-cart-{{ $book['id'] }}" book="{{ $book['title'] }}" onclick="event.preventDefault(); addToCart({{ $book['id'] }})" href="#">Chọn mua</a>
                             </div>
                         </div>
                     </div>
@@ -69,4 +69,70 @@
         <div class="clearfix"></div>
     </div>
     <!---->
+
+@endsection
+@section('footer_js')
+<script>
+    function addToCart(id) {
+    	var name = $('#add-to-cart-' + id).attr('book'),
+            url = '{{ url('add-to-cart') }}/' + id;
+        $.get(url).done(function (data) {
+			Swal({
+				title: 'Thành công',
+				text: name + ' đã được thêm vào giỏ hàng',
+				type: 'success',
+				timer: 2000,
+				showConfirmButton: false
+			})
+            var ids = Object.keys(data.items);
+            loadCart(data,ids);
+		})
+    }
+    function loadCart(data,ids) {
+        var totalQty = data.totalQty,
+            totalPrice = data.totalPrice;
+        var cartContent =
+            '    <h6 id="cart-menu">Giỏ Hàng: <span class="item"><span class="total-qty">'+ totalQty +'</span> sản phẩm</span>\n' +
+			'        <span class="rate">'+ totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) +'</span>\n' +
+			'        <li><a href="" class="round"> </a>\n' +
+			'            <ul class="sub-icon1 list">\n' +
+			'                <h3></h3>\n' +
+			'                <div class="shopping_cart">\n' +
+			'                </div>\n' +
+			'                <div class="check_button"><a href="">Chi Tiết Giỏ Hàng</a></div>\n' +
+			'                <div class="clearfix"></div>\n' +
+			'            </ul>\n' +
+			'        </li>\n' +
+			'    </h6>\n'
+		$('#cart-bar').html(cartContent)
+
+        $.map(ids,function (id) {
+            var list = data.items[id];
+        	var itemContent =
+                '           <div class="cart_box" id="item-'+ id +'">\n' +
+				'                            <div class="message">\n' +
+				'                                <a class="alert-close" onclick="event.preventDefault(); delItemCart('+ id +')"></a>\n' +
+				'                                <div class="list_img">\n' +
+				'                                    <a href="">\n' +
+				'                                        <img title="'+ list.item.title +'" src="images/'+ list.item.image +'" class="img-responsive" alt="'+ list.item.title +'">\n' +
+				'                                    </a>\n' +
+				'                                </div>\n' +
+				'                                <div class="list_desc">\n' +
+				'                                    <h4>\n' +
+				'                                        <a title="'+ list.item.title +'" href="">\n' + list.item.title +
+				'                                        </a>\n' +
+				'                                    </h4>\n' +
+				'                                    <h5>Số lượng: '+ list.qty +'</h5>\n' +
+				'                                    <h5>Đơn giá: '+ list.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) +'<span\n' +
+				'                                                value=""></span>\n' +
+				'                                    </h5>\n' +
+				'                                </div>\n' +
+				'                                <div class="clearfix"></div>\n' +
+				'                            </div>\n' +
+				'                        </div>\n'
+            $('.shopping_cart').append(itemContent);
+		})
+	}
+
+</script>
 @endsection

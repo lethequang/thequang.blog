@@ -20,11 +20,11 @@ class CartController extends Controller
 		$cart = new Cart($oldCart);
 		$cart->add($product, $id);
 		$request->Session()->put('cart', $cart);
-		return redirect()->back();
+		return response()->json(Session::get('cart'));
 	}
 
 
-	public function getDelItemCart(Request $request, $id)
+	public function getDelItemCart($id)
 	{
 		$oldCart = Session::has('cart') ? Session::get('cart') : NULL;
 		$cart = new Cart($oldCart);
@@ -34,7 +34,7 @@ class CartController extends Controller
 		} else {
 			Session::forget('cart');
 		}
-		//return redirect()->back();
+		return response()->json(Session::get('cart'));
 	}
 
 
