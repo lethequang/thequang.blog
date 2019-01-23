@@ -85,6 +85,10 @@ Route::get('add-to-cart/{id}',[
 	'as'=>'addtocart',
 	'uses'=>'CartController@getAddToCart'
 ]);
+Route::get('reduce-item-cart/{id}',[
+	'as'=>'reduce-item-cart',
+	'uses'=>'CartController@getReduceCart'
+]);
 Route::get('del-item-cart/{id}',[
 	'as'=>'del-item-cart',
 	'uses'=>'CartController@getDelItemCart'

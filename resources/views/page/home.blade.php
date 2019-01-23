@@ -81,7 +81,7 @@
 				title: 'Thành công',
 				text: name + ' đã được thêm vào giỏ hàng',
 				type: 'success',
-				timer: 2000,
+				timer: 1300,
 				showConfirmButton: false
 			})
             var ids = Object.keys(data.items);
@@ -111,7 +111,7 @@
         	var itemContent =
                 '           <div class="cart_box" id="item-'+ id +'">\n' +
 				'                            <div class="message">\n' +
-				'                                <a class="alert-close" onclick="event.preventDefault(); delItemCart('+ id +')"></a>\n' +
+				'                                <a class="alert-close" id="del-item-cart-'+ id +'" book="'+ list.item.title +'" onclick="event.preventDefault(); delItemCart('+ id +')"></a>\n' +
 				'                                <div class="list_img">\n' +
 				'                                    <a href="">\n' +
 				'                                        <img title="'+ list.item.title +'" src="images/'+ list.item.image +'" class="img-responsive" alt="'+ list.item.title +'">\n' +
@@ -122,7 +122,7 @@
 				'                                        <a title="'+ list.item.title +'" href="">\n' + list.item.title +
 				'                                        </a>\n' +
 				'                                    </h4>\n' +
-				'                                    <h5>Số lượng: '+ list.qty +'</h5>\n' +
+				'                                    <h5>Số lượng: <span id="qty-'+ id +'">'+ list.qty +'</span></h5>\n' +
 				'                                    <h5>Đơn giá: '+ list.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) +'<span\n' +
 				'                                                value=""></span>\n' +
 				'                                    </h5>\n' +

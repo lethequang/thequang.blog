@@ -77,7 +77,8 @@
                             @foreach($cart->items as $product)
                                 <div class="cart_box" id="item-{{ $product['item']['id'] }}">
                                     <div class="message">
-                                        <a class="alert-close" onclick="event.preventDefault(); delItemCart({{ $product['item']['id'] }})"></a>
+                                        <a class="alert-close" id="del-item-cart-{{ $product['item']['id'] }}"
+                                                book="{{ $product['item']['title'] }}" onclick="event.preventDefault(); delItemCart({{ $product['item']['id'] }})"></a>
                                         <div class="list_img">
                                             <a href="book/{{ $product['item']['slug'] }}">
                                                 <img title="{{ $product['item']['title'] }}" src="images/{{ $product['item']['image'] }}" class="img-responsive" alt="{{ $product['item']['title'] }}">
@@ -90,7 +91,7 @@
                                                     {{ $product['item']['title'] }}
                                                 </a>
                                             </h4>
-                                            <h5>Số lượng: {{ $product['qty'] }}</h5>
+                                            <h5>Số lượng: <span id="qty-{{ $product['item']['id'] }}"> {{ $product['qty'] }}</span></h5>
                                             <h5>Đơn giá: <span>{{ number_format($product['item']['price'], 0, '', '.') }} &#8363;</span>
                                             </h5>
                                         </div>
@@ -109,28 +110,65 @@
         <div class="clearfix"></div>
     </div>
     <script>
+        // delete item
 		function delItemCart(id) {
-			var url = '{{ url('del-item-cart') }}/' + id;
-			$.get(url).done(function (data) {
-
-				if (Object.keys(data).length == 0) {
-					loadBar();
-					return false;
+			var url = '{{ url('del-item-cart') }}/' + id,
+                bookTitle = $('#del-item-cart-' + id).attr('book');
+			Swal.fire({
+				title: 'Xác nhận',
+				text: "Bạn có chắc muốn xóa " + bookTitle,
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Đồng ý',
+				cancelButtonText: 'Hủy'
+			}).then(function(result) {
+				if (result.value) {
+					removeItemCart(url,id);
 				}
-                removeItem(id,data);
 			})
 		}
-		function loadBar() {
-			var barContent = '<h6 id="cart-menu">Giỏ Hàng: <span class="item"><span></span> Trống</span>\n';
+
+		// load empty cart
+		function loadEmptyCart() {
+			var barContent = '<h6 id="cart-menu">Giỏ Hàng: <span class="item"><span></span> Trống</span>\n',
+				cartPageContent = '<div class="alert alert-danger"><h4 class="text-center">Bạn không có sản phẩm nào trong giỏ hàng. Vui lòng quay lại ' +
+					'<a href="/"> Trang Chủ</a> để đặt mua </h4></div>\n' +
+					'<div class="check-out"></div>';
+
+			$('#cart-page-content').html(cartPageContent);
 			$('#cart-menu').html(barContent);
 		}
-		function removeItem(id,data) {
-			var totalQty = data.totalQty,
-                totalprice = data.totalPrice;
-			$('#item-' + id).hide();
-			$('.total-qty').html(totalQty)
-			$('.rate').html(totalprice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
 
+		// remove item and update cart
+		function removeItemCart(url,id) {
+			$.get(url).done(function (data) {
+
+				Swal({
+					title: 'Thành công',
+					text: 'Xóa sản phẩm thành công',
+					type: 'success',
+					timer: 1000,
+					showConfirmButton: false
+				})
+
+				if (Object.keys(data).length == 0) {
+					loadEmptyCart();
+					return false;
+				}
+                var totalQty = data.totalQty,
+                    totalPrice = data.totalPrice;
+
+                // update cart bar
+                $('#item-' + id).hide();
+                $('.total-qty').html(totalQty)
+                $('.rate').html(totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+
+                // update cart page
+                $('#tr-product-' + id).hide();
+                $('.total-price').html(totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+			})
 		}
     </script>
 

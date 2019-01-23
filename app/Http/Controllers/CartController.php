@@ -23,6 +23,18 @@ class CartController extends Controller
 		return response()->json(Session::get('cart'));
 	}
 
+	public function getReduceCart($id)
+	{
+		$oldCart = Session::has('cart') ? Session::get('cart') : NULL;
+		$cart = new Cart($oldCart);
+		$cart->reduceByOne($id);
+		if (count($cart->items) > 0) {
+			Session::put('cart', $cart);
+		} else {
+			Session::forget('cart');
+		}
+		return response()->json(Session::get('cart'));
+	}
 
 	public function getDelItemCart($id)
 	{
