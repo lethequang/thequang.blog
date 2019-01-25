@@ -70,7 +70,7 @@
             <?php $cart = session()->get('cart'); ?>
             <h6 id="cart-menu">Giỏ Hàng: <span class="item"><span class="total-qty">{{ $cart->totalQty }}</span> sản phẩm</span>
                 <span class="rate">{{ number_format($cart->totalPrice, 0, '', '.') }} &#8363;</span>
-                <li><a href="{{ route('cart') }}" class="round"> </a>
+                <li><a class="round"> </a>
                     <ul class="sub-icon1 list">
                         <h3></h3>
                         <div class="shopping_cart">
@@ -116,7 +116,7 @@
                 bookTitle = $('#del-item-cart-' + id).attr('book');
 			Swal.fire({
 				title: 'Xác nhận',
-				text: "Bạn có chắc muốn xóa " + bookTitle,
+				html: "Bạn có chắc muốn xóa " + "<h6>" + bookTitle + "</h6>",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',

@@ -112,6 +112,12 @@
 		function updateCart(url,id) {
 			$.get(url).done(function (data) {
 				console.log(data)
+				Swal({
+					title: 'Thành công',
+					type: 'success',
+					timer: 1000,
+					showConfirmButton: false
+				})
                 var totalQty = data.totalQty,
                     totalPrice = data.totalPrice,
                     item = data.items[id],
@@ -135,7 +141,7 @@
                 bookTitle = $('#del-item-page-' + id).attr('book');
 			Swal.fire({
 				title: 'Xác nhận',
-				text: "Bạn có chắc muốn xóa " + bookTitle,
+				html: "Bạn có chắc muốn xóa " + "<h6>" + bookTitle + "</h6>",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
