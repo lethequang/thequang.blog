@@ -46,11 +46,11 @@
             </div>
             <div class="col-md-4 contact-bottom">
                 <h3>Thông Tin Liên Hệ</h3>
-                <ul class="social ">
+                <!-- <ul class="social ">
                     <li><span>175/74 Hà Tôn Quyền - P4 - Q11 - Tp.HCM </span></li>
                     <li><span>+ 84 167 442 0257</span></li>
                     <li><a href="mailto:lethequang565@gmail.com">lethequang565@gmail.com</a></li>
-                </ul>
+                </ul> -->
 
                 <div class="map">
                     <iframe src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJ8-cENY0udTERzeaOkdFFA6s&key=AIzaSyD_88tY9OtN0LOUHBw8H6ewlY51auxUa4o" allowfullscreen></iframe>

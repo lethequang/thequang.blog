@@ -29,7 +29,7 @@
 <div class="container">
     @include('header')
     <div class="page">
-        <h6><a href="#">TheQuang.Blog</a><b>|</b><span class="for">TheQuang Bookstore</span></h6>
+        <h6><a href="#">ShopSachHay</a><b>|</b><span class="for">ShopSachHay Bookstore</span></h6>
     </div>
     @yield('content')
     @include('footer')
