@@ -25,13 +25,13 @@ class AppServiceProvider extends ServiceProvider
         	$view->with('product_cat',$product_cat)
 				->with('product_author',$product_author);
 		});
-        view()->composer('header',function ($view){
-        	if (Session('cart')){
-        		$oldCart = Session::get('cart');
-        		$cart = new Cart($oldCart);
-        		$view->with(['cart'=>Session::get('cart'),'product_cart'=>$cart->items,'totalPrice'=>$cart->totalPrice,'totalQty'=>$cart->totalQty]);
-			}
-		});
+//        view()->composer(['header','page/home'],function ($view){
+//        	if (Session('cart')){
+//        		$oldCart = Session::get('cart');
+//        		$cart = new Cart($oldCart);
+//        		$view->with(['cart'=>Session::get('cart'),'product_cart'=>$cart->items,'totalPrice'=>$cart->totalPrice,'totalQty'=>$cart->totalQty]);
+//			}
+//		});
 
     }
 

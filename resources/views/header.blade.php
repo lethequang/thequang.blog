@@ -1,56 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Website bán sách trực tuyến - TheQuang.Blog</title>
-    <base href="{{asset('')}}">
-    <link href="source/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <script src="source/js/jquery.min.js"></script>
-    <script src="source/js/bootstrap.min.js"></script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- Custom Theme files -->
-    <!--theme-style-->
-    <link href="source/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-    <!--//theme-style-->
-    <link rel="shortcut icon" type="image/png" href="source/images/favicon.ico"/>
-    <meta HTTP-EQUIV="Content-Language" CONTENT="vi">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="keywords" content="bookstore,thequang.blog"/>
-    <script type="application/x-javascript"> addEventListener("load", function () {
-			setTimeout(hideURLbar, 0);
-		}, false);
 
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		} </script>
-    <!--fonts-->
-    <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,600,700' rel='stylesheet' type='text/css'>
-    <!--//fonts-->
-    <!--//slider-script-->
-    <script type="text/javascript" src="source/js/move-top.js"></script>
-    <script type="text/javascript" src="source/js/easing.js"></script>
-    <script type="text/javascript">
-		jQuery(document).ready(function ($) {
-			$(".scroll").click(function (event) {
-				event.preventDefault();
-				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
-			});
-		});
-    </script>
-    <!-- start menu -->
-    <link href="source/css/megamenu.css" rel="stylesheet" type="text/css" media="all"/>
-    <script type="text/javascript" src="source/js/megamenu.js"></script>
-    <script>
-		$(document).ready(function () {
-			$(".megamenu").megamenu();
-		});
-    </script>
-
-</head>
-<body>
-<!--header-->
-<div class="container">
     <div class="header" id="home">
         <div class="header-para">
             <p><span></span></p>
@@ -84,7 +32,7 @@
     </div><!---->
     <div class="header-top">
         <div class="logo">
-            <a href="#"><img src="source/images/logo-thequang3.png" alt="" style="width: 60%"></a>
+            <a href="#"><img src="source/images/shopsachhay.png" alt="" style="width: 60%"></a>
         </div>
         <div class="header-top-on">
            <form action="{{ route('search') }}" method="get">
@@ -117,106 +65,110 @@
                 <li><a class="pink" href="{{ route('news') }}">TIN TỨC</a></li>
             </ul>
         </div>
-        <div class="cart icon1 sub-icon1">
-            <h6>Giỏ Hàng: <span class="item"><span
-                            id="tongsl">@if(Session::has('cart')){{ $totalQty }}</span> sản phẩm @else
-                        Trống @endif</span>
-                @if(Session::has('cart'))
-                    <span class="rate" value="{{ $totalPrice }}">{{ number_format($totalPrice) }} VNĐ</span>
-                    <li><a href="{{ route('cart') }}" class="round"> </a>
-                        <ul class="sub-icon1 list">
-                            <h3></h3>
-                            <div class="shopping_cart">
-                                @foreach($product_cart as $product)
-                                    <div class="hidecart cart_box" id="hidecart{{ $product['item']['id'] }}">
-                                        <div class="message">
-                                            <a value="{{ $product['item']['id'] }}" soluong="{{ $product['qty'] }}"
-                                                    class="delheader alert-close"></a>
-                                            <div class="list_img">
-                                                <a href="book/{{ $product['item']['slug'] }}">
-                                                    <img title="{{ $product['item']['title'] }}" src="images/{{ $product['item']['image'] }}" class="img-responsive" alt="{{ $product['item']['title'] }}">
-                                                </a>
-                                            </div>
-                                            <div class="list_desc">
-                                                <h4>
-                                                    <a title="{{ $product['item']['title'] }}" href="book/{{ $product['item']['slug'] }}">
-                                                        {{ substr_replace($product['item']['title'],'...',25) }}
-                                                    </a>
-                                                </h4>
-                                                <h5>Số lượng: {{ $product['qty'] }}</h5>
-                                                <h5>Đơn giá: <span id="dongia{{ $product['item']['id'] }}"
-                                                            value="{{ $product['item']['price'] }}">{{ number_format($product['item']['price']) }}</span>
-                                                </h5>
-                                            </div>
-                                            <div class="clearfix"></div>
+        <div class="cart icon1 sub-icon1" id="cart-bar">
+            @if(Session::has('cart'))
+            <?php $cart = session()->get('cart'); ?>
+            <h6 id="cart-menu">Giỏ Hàng: <span class="item"><span class="total-qty">{{ $cart->totalQty }}</span> sản phẩm</span>
+                <span class="rate">{{ number_format($cart->totalPrice, 0, '', '.') }} &#8363;</span>
+                <li><a class="round"> </a>
+                    <ul class="sub-icon1 list">
+                        <h3></h3>
+                        <div class="shopping_cart">
+                            @foreach($cart->items as $product)
+                                <div class="cart_box" id="item-{{ $product['item']['id'] }}">
+                                    <div class="message">
+                                        <a class="alert-close" id="del-item-cart-{{ $product['item']['id'] }}"
+                                                book="{{ $product['item']['title'] }}" onclick="event.preventDefault(); delItemCart({{ $product['item']['id'] }})"></a>
+                                        <div class="list_img">
+                                            <a href="book/{{ $product['item']['slug'] }}">
+                                                <img title="{{ $product['item']['title'] }}" src="images/{{ $product['item']['image'] }}" class="img-responsive" alt="{{ $product['item']['title'] }}">
+                                            </a>
                                         </div>
+                                        <div class="list_desc">
+                                            <h4>
+                                                <a title="{{ $product['item']['title'] }}" href="book/{{ $product['item']['slug'] }}" style="">
+                                                    {{--{{ substr_replace($product['item']['title'],'...',25) }}--}}
+                                                    {{ $product['item']['title'] }}
+                                                </a>
+                                            </h4>
+                                            <h5>Số lượng: <span id="qty-{{ $product['item']['id'] }}"> {{ $product['qty'] }}</span></h5>
+                                            <h5>Đơn giá: <span>{{ number_format($product['item']['price'], 0, '', '.') }} &#8363;</span>
+                                            </h5>
+                                        </div>
+                                        <div class="clearfix"></div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="check_button"><a href="{{ route('cart') }}">Chi Tiết Giỏ Hàng</a></div>
-                            <div class="clearfix"></div>
-                        </ul>
-                    </li>
-                @endif
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="check_button"><a href="{{ route('cart') }}">Chi Tiết Giỏ Hàng</a></div>
+                        <div class="clearfix"></div>
+                    </ul>
+                </li>
             </h6>
-
+            @endif
         </div>
         <div class="clearfix"></div>
     </div>
     <script>
-        {{--$(document).ready(function ($) {--}}
-            {{--$('.delheader').click(function () {--}}
-                {{--var id = $(this).attr('value');--}}
-                {{--var route = "{{ route('del-item-cart',':id_pro') }}";--}}
-                {{--route = route.replace(':id_pro', id);--}}
-                {{--var soluong = $(this).attr("soluong");--}}
-                {{--var dongia = $('#dongia' + id).attr('value')--}}
-                {{--var tongdongia = $('.rate').attr('value');--}}
-
-                {{--$.ajax({--}}
-                    {{--url: route,--}}
-                    {{--type: 'get',--}}
-                    {{--data: {id: id},--}}
-                    {{--success: function () {--}}
-                        {{--alert('kk')--}}
-                        {{--var tongsl = $('#tongsl').html();--}}
-                        {{--$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));--}}
-                        {{--$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');--}}
-                        {{--$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));--}}
-                        {{--$('#hidecart' + id).hide();--}}
-                    {{--},--}}
-                    {{--error: function (data) {--}}
-                        {{--console.log(data)--}}
-                    {{--}--}}
-                {{--})--}}
-            {{--})--}}
-        {{--});--}}
-		$(document).ready(function ($) {
-			$('.delheader').click(function () {
-				var id = $(this).attr('value');
-				var route = "{{ route('del-item-cart',':id_pro') }}";
-				console.log(route)
-				route = route.replace(':id_pro', id);
-				var soluong = $(this).attr("soluong");
-				var dongia = $('#dongia' + id).attr('value')
-				var tongdongia = $('.rate').attr('value');
-
-				$.ajax({
-					url: route,
-					type: 'get',
-					data: {id: id},
-					success: function () {
-						var tongsl = $('#tongsl').html();
-						$("#tongsl").html(parseInt(tongsl) - parseInt(soluong));
-						$('.rate').html(parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)) + ' VNĐ ');
-						$('.rate').attr('value', parseInt(tongdongia) - (parseInt(soluong) * parseInt(dongia)));
-						$('#hidecart' + id).hide();
-					},
-					error: function (data) {
-						console.log(data)
-					}
-				})
+        // delete item
+		function delItemCart(id) {
+			var url = '{{ url('del-item-cart') }}/' + id,
+                bookTitle = $('#del-item-cart-' + id).attr('book');
+			Swal.fire({
+				title: 'Xác nhận',
+				html: "Bạn có chắc muốn xóa " + "<h6>" + bookTitle + "</h6>",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Đồng ý',
+				cancelButtonText: 'Hủy'
+			}).then(function(result) {
+				if (result.value) {
+					removeItemCart(url,id);
+				}
 			})
-		});
+		}
 
+		// load empty cart
+		function loadEmptyCart() {
+			var barContent = '<h6 id="cart-menu">Giỏ Hàng: <span class="item"><span></span> Trống</span>\n',
+				cartPageContent = '<div class="alert alert-danger"><h4 class="text-center">Bạn không có sản phẩm nào trong giỏ hàng. Vui lòng quay lại ' +
+					'<a href="/"> Trang Chủ</a> để đặt mua </h4></div>\n' +
+					'<div class="check-out"></div>';
+
+			$('#cart-page-content').html(cartPageContent);
+			$('#cart-menu').html(barContent);
+		}
+
+		// remove item and update cart
+		function removeItemCart(url,id) {
+			$.get(url).done(function (data) {
+
+				Swal({
+					title: 'Thành công',
+					text: 'Xóa sản phẩm thành công',
+					type: 'success',
+					timer: 1000,
+					showConfirmButton: false
+				})
+
+				if (Object.keys(data).length == 0) {
+					loadEmptyCart();
+					return false;
+				}
+                var totalQty = data.totalQty,
+                    totalPrice = data.totalPrice;
+
+                // update cart bar
+                $('#item-' + id).hide();
+                $('.total-qty').html(totalQty)
+                $('.rate').html(totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+
+                // update cart page
+                $('#tr-product-' + id).hide();
+                $('.total-price').html(totalPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+			})
+		}
     </script>
+
